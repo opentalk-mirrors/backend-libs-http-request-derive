@@ -1,11 +1,8 @@
-workspace = { members = ["impl"] }
-
 [package]
-name = "http-request-derive"
+name = "http-request-derive-impl"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-http-request-derive-impl = { package = "http-request-derive-impl", path = "impl" }

@@ -5,3 +5,10 @@ version = 3
 [[package]]
 name = "http-request-derive"
 version = "0.1.0"
+dependencies = [
+ "http-request-derive-impl",
+]
+
+[[package]]
+name = "http-request-derive-impl"
+version = "0.1.0"
