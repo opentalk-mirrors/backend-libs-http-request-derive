@@ -26,3 +26,14 @@
     unused_qualifications,
     unused_results
 )]
+
+use proc_macro::TokenStream;
+
+mod http_method;
+mod request;
+
+/// `HttpRequest` derive macro
+#[proc_macro_derive(HttpRequest, attributes(http_request))]
+pub fn derive_request(input: TokenStream) -> TokenStream {
+    request::request(input)
+}
