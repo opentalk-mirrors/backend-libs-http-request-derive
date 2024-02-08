@@ -10,7 +10,7 @@ pub trait FromHttpResponse {
     /// # Errors
     ///
     /// The implementation of this trait will map the response to an error if it should be interpreted as such.
-    /// Typical HTTP status code errors are read by the default implementation of [`crate::Request::read_response`]
+    /// Typical HTTP status code errors are read by the default implementation of [`crate::HttpRequest::read_response`]
     /// already, so in most cases additional checks are not necessary here.
     ///
     /// Of course if the contents of the response cannot be parsed, this will usually be handled as an

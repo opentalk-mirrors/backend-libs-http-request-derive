@@ -2,7 +2,7 @@ use http::HeaderMap;
 
 use crate::Error;
 
-/// Trait defined on every body type that can be used with [`crate::Request`].
+/// Trait defined on every body type that can be used with [`crate::HttpRequest`].
 pub trait HttpRequestBody {
     /// Convert the request contents to a [`Vec<u8>`].
     ///

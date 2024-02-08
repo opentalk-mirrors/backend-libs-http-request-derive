@@ -47,6 +47,71 @@ pub use http_request::HttpRequest;
 pub use http_request_body::HttpRequestBody;
 pub use http_request_query_params::HttpRequestQueryParams;
 
+/// [`derive@HttpRequest`] can be derived by structs that needs to implement the [`HttpRequest`] trait.
+///
+/// It generates the request types (e.g. Response, Body or Query) and the getter functions
+///
+/// # Examples:
+///
+/// ## GET Endpoint with dynamic path
+///
+/// ```
+/// # use http_request_derive::HttpRequest;
+/// #[derive(HttpRequest)]
+/// #[http_request(
+///     method = "GET",
+///     response = GetItemResponse,
+///     path = "/v1/item/{0}"
+/// )]
+/// pub struct GetItemRequest(pub usize);
+///
+/// # #[derive(serde::Deserialize)]
+/// # pub struct GetItemResponse;
+/// ```
+///
+/// ## GET Endpoint with query parameters
+///
+/// ```
+/// # use http_request_derive::HttpRequest;
+/// # pub type PostEventInviteQuery = String;
+/// #[derive(HttpRequest)]
+/// #[http_request(
+///     method = "GET",
+///     response = String,
+///     path = "/v1/items"
+/// )]
+/// pub struct GetItemsWithQueryRequest {
+///     #[http_request(query)]
+///     pub query: PostEventInviteQuery,
+/// }
+/// ```
+///
+/// ## POST Endpoint with multiple attributes
+///
+/// ```
+/// # use http_request_derive::HttpRequest;
+/// # pub type SampleQuery = String;
+/// # pub type SampleBody = String;
+/// # pub type SampleResponse = String;
+/// #[derive(HttpRequest)]
+/// #[http_request(
+///     method = "POST",
+///     response = SampleResponse,
+///     path = "/v1/item/{id}"
+/// )]
+/// pub struct SampleRequest {
+///     pub id: usize,
+///
+///     #[http_request(query)]
+///     pub query: SampleQuery,
+///
+///     #[http_request(body)]
+///     pub body: SampleBody,
+///
+///     #[http_request(header)]
+///     pub header: http::HeaderMap,
+/// }
+/// ```
 pub use http_request_derive_macros::HttpRequest;
 
 #[cfg(test)]
