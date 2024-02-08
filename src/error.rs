@@ -1,6 +1,6 @@
 use bytes::Bytes;
 use http::uri::InvalidUri;
-use snafu::Snafu;
+use snafu::{Location, Snafu};
 use url::Url;
 
 /// Errors that originate from this crate
@@ -64,4 +64,27 @@ pub enum Error {
         /// The source of the serde_json error
         source: serde_json::Error,
     },
+
+    /// custom error returned e.g. by a custom trait implementation in a different crate
+    #[snafu(display("{message}"))]
+    Custom {
+        /// The custom error message
+        message: String,
+
+        /// The location where the error happened
+        location: Location,
+    },
+}
+
+impl Error {
+    /// Create a custom error
+    #[track_caller]
+    pub fn custom(message: String) -> Self {
+        let location = std::panic::Location::caller();
+
+        Error::Custom {
+            message,
+            location: Location::new(location.file(), location.line(), location.column()),
+        }
+    }
 }
