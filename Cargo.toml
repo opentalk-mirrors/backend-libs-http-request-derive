@@ -15,7 +15,7 @@ repository = "https://codeberg.org/silwol/http-request-derive"
 [dependencies]
 bytes = "1"
 http = "0.2"
-http-request-derive-macros = { package = "http-request-derive-macros", path = "macros" }
+http-request-derive-macros = { version = "0.1", path = "macros" }
 serde = { version = "1", optional = true }
 serde_json = { version = "1", optional = true }
 serde_url_params = { version = "0.2", optional = true }
