@@ -2,7 +2,7 @@ workspace = { members = ["macros"] }
 
 [package]
 name = "http-request-derive"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 publish = true
 description = "Use derive to create HTTP requests"
@@ -15,7 +15,7 @@ repository = "https://codeberg.org/silwol/http-request-derive"
 [dependencies]
 bytes = "1"
 http = "0.2"
-http-request-derive-macros = { version = "0.1", path = "macros" }
+http-request-derive-macros = { version = "0.1.1", path = "macros" }
 serde = { version = "1", optional = true }
 serde_json = { version = "1", optional = true }
 serde_url_params = { version = "0.2", optional = true }
