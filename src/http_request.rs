@@ -40,9 +40,9 @@ pub trait HttpRequest {
 
     /// Get the headers for the `http::Request`
     fn apply_headers(&self, headers: &mut HeaderMap) {
-        let _ = headers
-            .entry(http::header::CONTENT_TYPE)
-            .or_insert_with(|| http::HeaderValue::from_static("application/json"));
+        if let Some(body) = self.body() {
+            body.apply_headers(headers);
+        }
     }
 
     /// Build a HTTP request from the request type
@@ -78,9 +78,7 @@ pub trait HttpRequest {
         };
 
         let mut headers = HeaderMap::new();
-        if let Some(body) = self.body() {
-            body.apply_headers(&mut headers);
-        }
+        self.apply_headers(&mut headers);
 
         let mut builder = http::request::Request::builder()
             .method(Self::METHOD)

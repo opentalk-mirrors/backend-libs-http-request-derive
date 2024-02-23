@@ -209,12 +209,23 @@ fn impl_request(
 
             quote! {
                 fn apply_headers(&self, headers: &mut http::HeaderMap) {
+                    use ::http_request_derive::HttpRequestBody as _;
+
                     headers.extend(self.#name.clone());
+                    if let Some(body) = self.body() {
+                        body.apply_headers(headers);
+                    }
                 }
             }
         }
         None => quote! {
-            fn apply_headers(&self, headers: &mut http::HeaderMap) {}
+            fn apply_headers(&self, headers: &mut http::HeaderMap) {
+                use ::http_request_derive::HttpRequestBody as _;
+
+                if let Some(body) = self.body() {
+                    body.apply_headers(headers);
+                }
+            }
         },
     };
 
