@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: OpenTalk GmbH <mail@opentalk.eu>
-# SPDX-License-Identifier: EUPL-1.2
+# SPDX-License-Identifier: MIT OR Apache-2.0
 
 # Enable all rules by default
 all
