@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: OpenTalk GmbH <mail@opentalk.eu>
+//
+// SPDX-License-Identifier: MIT OR Apache-2.0
+
 use http::HeaderMap;
 use http_request_derive::HttpRequest;
 use serde::Deserialize;

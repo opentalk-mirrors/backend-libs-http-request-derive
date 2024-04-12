@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: OpenTalk GmbH <mail@opentalk.eu>
+//
+// SPDX-License-Identifier: MIT OR Apache-2.0
+
 use bytes::Bytes;
 use http::uri::InvalidUri;
 use snafu::{Location, Snafu};

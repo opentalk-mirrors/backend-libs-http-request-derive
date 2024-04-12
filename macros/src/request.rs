@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: OpenTalk GmbH <mail@opentalk.eu>
+//
+// SPDX-License-Identifier: MIT OR Apache-2.0
+
 use darling::{ast, util, FromDeriveInput, FromField};
 use proc_macro2::Span;
 use quote::quote;
