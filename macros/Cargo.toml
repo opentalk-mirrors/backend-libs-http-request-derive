@@ -17,8 +17,8 @@ repository = "https://codeberg.org/silwol/http-request-derive"
 proc-macro = true
 
 [dependencies]
-darling = "0.20.5"
-proc-macro2 = "1.0.78"
-quote = "1.0.35"
-strum = { version = "0.26.1", features = ["derive"] }
-syn = "2.0.48"
+darling = "0.20.8"
+proc-macro2 = "1.0.81"
+quote = "1.0.36"
+strum = { version = "0.26.2", features = ["derive"] }
+syn = "2.0.60"
