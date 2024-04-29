@@ -6,9 +6,8 @@ use darling::{ast, util, FromDeriveInput, FromField};
 use proc_macro2::Span;
 use quote::quote;
 
-use crate::http_method::HttpMethod;
-
 use self::format::expand_format_string;
+use crate::http_method::HttpMethod;
 
 mod format;
 
