@@ -49,8 +49,6 @@ pub use error::Error;
 pub use from_http_response::FromHttpResponse;
 pub use http_request::HttpRequest;
 pub use http_request_body::HttpRequestBody;
-pub use http_request_query_params::HttpRequestQueryParams;
-
 /// [`derive@HttpRequest`] can be derived by structs that needs to implement the [`HttpRequest`] trait.
 ///
 /// It generates the request types (e.g. Response, Body or Query) and the getter functions
@@ -117,6 +115,7 @@ pub use http_request_query_params::HttpRequestQueryParams;
 /// }
 /// ```
 pub use http_request_derive_macros::HttpRequest;
+pub use http_request_query_params::HttpRequestQueryParams;
 
 #[cfg(test)]
 mod tests {
