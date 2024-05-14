@@ -3,12 +3,12 @@
 # SPDX-License-Identifier: MIT OR Apache-2.0
 
 [package]
-description = "Use derive to create HTTP requests"
-edition = "2021"
-license = "MIT OR Apache-2.0"
+description.workspace = true
+edition.workspace = true
+license.workspace = true
 name = "http-request-derive-macros"
-publish = true
-repository = "https://codeberg.org/silwol/http-request-derive"
+publish.workspace = true
+repository.workspace = true
 version = "0.1.1"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
