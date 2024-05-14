@@ -2,7 +2,31 @@
 //
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
-//! `HttpRequest` derive
+//! Attention: this crate is still under development.
+//!
+//! You can derive `HttpRequest` on a struct and annotate it with some attributes,
+//! so that it can be used to build a
+//! [`http::Request`](https://docs.rs/http/latest/http/request/struct.Request.html)
+//! which can then be sent to a server. In addition, a response type can be read from
+//! the received
+//! [`http::Response`](https://docs.rs/http/latest/http/response/struct.Response.html).
+//!
+//! ```
+//! use http_request_derive::HttpRequest;
+//! use serde::Deserialize;
+//!
+//! #[derive(HttpRequest)]
+//! #[http_request(method = "GET", response = MyResponse, path = "/books/{id}/abstract")]
+//! struct MyRequest {
+//!     #[http_request(query)]
+//!     query: String,
+//!
+//!     id: usize,
+//! }
+//!
+//! #[derive(Deserialize)]
+//! struct MyResponse {}
+//! ```
 
 #![deny(
     bad_style,
