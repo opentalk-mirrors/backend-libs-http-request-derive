@@ -87,6 +87,11 @@ lint:shellcheck:
   script:
     - git ls-files --exclude='*.sh' --ignored -c -z | xargs -0r shellcheck
 
+lint:toml:
+  stage: lint
+  <<: *default_job_condition
+  script: taplo fmt --check
+
 test:cargo_test:
   stage: test
   needs: []

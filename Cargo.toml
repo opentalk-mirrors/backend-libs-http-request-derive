@@ -5,13 +5,13 @@
 workspace = { members = ["macros"] }
 
 [package]
-name = "http-request-derive"
-version = "0.1.2"
-edition = "2021"
-publish = true
 description = "Use derive to create HTTP requests"
+edition = "2021"
 license = "MIT OR Apache-2.0"
+name = "http-request-derive"
+publish = true
 repository = "https://codeberg.org/silwol/http-request-derive"
+version = "0.1.2"
 
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -27,8 +27,8 @@ snafu = "0.8"
 url = "2"
 
 [dev-dependencies]
-serde = { version = "1", features = ["derive"] }
 pretty_assertions = "1"
+serde = { version = "1", features = ["derive"] }
 
 [features]
 default = ["serde"]
