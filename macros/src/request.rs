@@ -238,7 +238,7 @@ fn impl_request(
             type Query = #query_type;
             type Body = #body_type;
 
-            const METHOD: http::Method = ::http_request_derive::__exports::http::Method::#method;
+            const METHOD: ::http_request_derive::__exports::http::Method = ::http_request_derive::__exports::http::Method::#method;
 
             fn path(&self) -> std::string::String {
                 #path.into()
