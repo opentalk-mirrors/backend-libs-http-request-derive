@@ -25,9 +25,11 @@ version = "0.1.2"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+async-trait = "0.1.82"
 bytes = "1"
 http = "1"
 http-request-derive-macros = { version = "0.1.1", path = "macros" }
+reqwest = { version = "0.12.7", optional = true, default-features = false }
 serde = { version = "1", optional = true }
 serde_json = { version = "1", optional = true }
 serde_url_params = { version = "0.2", optional = true }
@@ -40,4 +42,5 @@ serde = { version = "1", features = ["derive"] }
 
 [features]
 default = ["serde"]
+reqwest = ["dep:reqwest"]
 serde = ["dep:serde", "dep:serde_json", "dep:serde_url_params"]

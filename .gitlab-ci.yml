@@ -28,7 +28,16 @@ lint:fmt:
 lint:clippy:
   stage: lint
   <<: *default_job_condition
-  script: cargo clippy --workspace --all-features --tests -- --deny warnings
+  parallel:
+    matrix:
+      - FEATURES:
+          [
+          '',
+            reqwest,
+            serde,
+          ]
+        EXTRA_ARGS: ['', --no-default-features]
+  script: cargo clippy --workspace $EXTRA_ARGS --features=$FEATURES --tests -- --deny warnings
 
 lint:doc:
   stage: lint
