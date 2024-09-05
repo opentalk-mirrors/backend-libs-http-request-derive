@@ -37,8 +37,10 @@ snafu = "0.8"
 url = "2"
 
 [dev-dependencies]
+mockito = "1.5"
 pretty_assertions = "1"
 serde = { version = "1", features = ["derive"] }
+tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
 
 [features]
 default = ["serde"]

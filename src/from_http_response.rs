@@ -64,3 +64,69 @@ where
         .context(crate::error::JsonSnafu)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use reqwest::Client;
+    use serde::Deserialize;
+
+    use super::*;
+
+    #[derive(Deserialize, Debug, PartialEq)]
+    struct TestStruct {
+        id: i32,
+        name: String,
+    }
+
+    #[tokio::test]
+    async fn test_from_reqwest_response_success() {
+        let mut server = mockito::Server::new_async().await;
+        let _m = server
+            .mock("GET", "/test")
+            .with_status(200)
+            .with_header("content-type", "application/json")
+            .with_body(r#"{"id": 1, "name": "Test"}"#)
+            .create_async()
+            .await;
+
+        let client = Client::new();
+        let response = client
+            .get(format!("{}/test", server.url()))
+            .send()
+            .await
+            .unwrap();
+
+        let result = TestStruct::from_reqwest_response(response).await;
+        assert!(result.is_ok());
+        assert_eq!(
+            result.unwrap(),
+            TestStruct {
+                id: 1,
+                name: "Test".to_string()
+            }
+        );
+    }
+
+    #[tokio::test]
+    async fn test_from_reqwest_response_invalid_json() {
+        let mut server = mockito::Server::new_async().await;
+        let _m = server
+            .mock("GET", "/test")
+            .with_status(200)
+            .with_header("content-type", "application/json")
+            .with_body(r#"{"id": 1, "name": "Test"#)
+            .create_async()
+            .await;
+
+        let client = Client::new();
+        let response = client
+            .get(format!("{}/test", server.url()))
+            .send()
+            .await
+            .unwrap();
+
+        let result = TestStruct::from_reqwest_response(response).await;
+        assert!(result.is_err());
+        assert!(matches!(result.unwrap_err(), Error::Json { .. }));
+    }
+}
