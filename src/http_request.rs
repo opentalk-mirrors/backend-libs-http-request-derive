@@ -10,7 +10,7 @@ use url::Url;
 
 use crate::{
     error::{
-        BuildRequestSnafu, NonSuccessStatusSnafu, ParseUriSnafu, ReqwestSnafu, UnauthorizedSnafu,
+        BuildRequestSnafu, NonSuccessStatusSnafu, ParseUriSnafu, UnauthorizedSnafu,
         UrlCannotBeABaseSnafu,
     },
     Error, FromHttpResponse, HttpRequestBody, HttpRequestQueryParams,
@@ -134,7 +134,7 @@ pub trait HttpRequest {
             StatusCode::UNAUTHORIZED => Err(UnauthorizedSnafu.build()),
             status => Err(NonSuccessStatusSnafu {
                 status,
-                data: response.bytes().await.context(ReqwestSnafu {
+                data: response.bytes().await.context(crate::error::ReqwestSnafu {
                     message: "Failed to receive error response",
                 })?,
             }

@@ -4,7 +4,6 @@
 
 use async_trait::async_trait;
 use bytes::Bytes;
-use snafu::ResultExt;
 
 use crate::Error;
 
@@ -48,6 +47,7 @@ where
     D: serde::de::DeserializeOwned,
 {
     fn from_http_response(http_response: http::Response<Bytes>) -> Result<Self, Error> {
+        use snafu::ResultExt as _;
         serde_json::from_slice(http_response.body()).context(crate::error::JsonSnafu)
     }
 
@@ -56,6 +56,8 @@ where
     where
         Self: Sized,
     {
+        use snafu::ResultExt as _;
+
         use crate::error::ReqwestSnafu;
 
         serde_json::from_slice(&response.bytes().await.context(ReqwestSnafu {
@@ -65,8 +67,8 @@ where
     }
 }
 
-#[cfg(test)]
-mod tests {
+#[cfg(all(test, feature = "reqwest", feature = "serde"))]
+mod serde_reqwest_tests {
     use reqwest::Client;
     use serde::Deserialize;
 

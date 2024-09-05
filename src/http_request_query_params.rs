@@ -2,8 +2,6 @@
 //
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
-use snafu::ResultExt;
-
 use crate::Error;
 
 /// A trait implemented by entities tha can build a HTTP request query string
@@ -29,6 +27,8 @@ impl HttpRequestQueryParams for String {
 #[cfg(feature = "serde")]
 impl<T: serde::Serialize> HttpRequestQueryParams for T {
     fn http_request_query_string(&self) -> Result<Option<String>, Error> {
+        use snafu::ResultExt;
+
         let value: serde_json::Value =
             serde_json::to_value(self).context(crate::error::JsonSnafu)?;
 
