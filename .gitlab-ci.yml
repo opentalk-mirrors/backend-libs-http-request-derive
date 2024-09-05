@@ -44,7 +44,7 @@ lint:doc:
   <<: *default_job_condition
   variables:
     RUSTDOCFLAGS: -Dwarnings
-  script: cargo doc --workspace --no-deps
+  script: cargo doc --workspace --no-deps --all-features
 
 lint:dependency_check:
   stage: lint
