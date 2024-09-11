@@ -141,7 +141,7 @@ pub use http_request_body::HttpRequestBody;
 pub use http_request_derive_macros::HttpRequest;
 pub use http_request_query_params::HttpRequestQueryParams;
 
-#[cfg(test)]
+#[cfg(all(test, feature = "serde"))]
 mod tests {
     use http::HeaderValue;
     use pretty_assertions::assert_eq;
