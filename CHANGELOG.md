@@ -50,8 +50,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Don't require dry-run before publish ([!29](https://git.opentalk.dev/opentalk/backend/libs/http-request-derive/-/merge_requests/29))
 - Call `cargo-deny` with `--deny unmatched-skip --deny license-not-encountered` ([!46](https://git.opentalk.dev/opentalk/backend/libs/http-request-derive/-/merge_requests/46))
 
-<!-- End section Unreleased -->
-
 ## [0.2.0] - 2024-05-14
 
 ### 🐛 Bug Fixes
