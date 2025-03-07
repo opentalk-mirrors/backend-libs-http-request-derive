@@ -20,5 +20,5 @@ proc-macro = true
 darling = "0.20.8"
 proc-macro2 = "1.0.81"
 quote = "1.0.36"
-strum = { version = "0.26.2", features = ["derive"] }
+strum = { version = "0.27.0", features = ["derive"] }
 syn = "2.0.60"
