@@ -69,16 +69,6 @@ pub enum Error {
         source: serde_json::Error,
     },
 
-    /// reqwest error
-    #[cfg(feature = "reqwest")]
-    #[snafu(display("reqwest error"))]
-    Reqwest {
-        /// The error message
-        message: String,
-        /// The source of the reqwest error
-        source: reqwest::Error,
-    },
-
     /// custom error returned e.g. by a custom trait implementation in a different crate
     #[snafu(display("{message}"))]
     Custom {
