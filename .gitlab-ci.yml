@@ -33,7 +33,6 @@ lint:clippy:
       - FEATURES:
           [
           '',
-            reqwest,
             serde,
           ]
         EXTRA_ARGS: ['', --no-default-features]

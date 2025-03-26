@@ -117,28 +117,4 @@ pub trait HttpRequest {
             .build()),
         }
     }
-
-    /// Convert the response from a `reqwest::Response`
-    ///
-    /// # Errors
-    ///
-    /// Usually HTTP response codes that don't indicate success will be converted to the
-    /// corresponding [`Error`]. For example, a [`StatusCode::UNAUTHORIZED`] is converted
-    /// to [`Error::Unauthorized`]. This is the behavior found in the default implementation
-    /// and can be overwritten by a specialized implementation if required.
-    #[cfg(feature = "reqwest")]
-    async fn read_reqwest_response(response: reqwest::Response) -> Result<Self::Response, Error> {
-        match response.status() {
-            status if status.is_success() => Self::Response::from_reqwest_response(response).await,
-
-            StatusCode::UNAUTHORIZED => Err(UnauthorizedSnafu.build()),
-            status => Err(NonSuccessStatusSnafu {
-                status,
-                data: response.bytes().await.context(crate::error::ReqwestSnafu {
-                    message: "Failed to receive error response",
-                })?,
-            }
-            .build()),
-        }
-    }
 }

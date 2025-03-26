@@ -23,21 +23,6 @@ pub trait FromHttpResponse {
     fn from_http_response(http_response: http::Response<Bytes>) -> Result<Self, Error>
     where
         Self: Sized;
-
-    /// Convert from `reqwest::Response` to our `Response`
-    ///
-    /// # Errors
-    ///
-    /// The implementation of this trait will map the response to an error if it should be interpreted as such.
-    /// Typical HTTP status code errors are read by the default implementation of [`crate::HttpRequest::read_response`]
-    /// already, so in most cases additional checks are not necessary here.
-    ///
-    /// Of course if the contents of the response cannot be parsed, this will usually be handled as an
-    /// error as well.
-    #[cfg(feature = "reqwest")]
-    async fn from_reqwest_response(response: reqwest::Response) -> Result<Self, Error>
-    where
-        Self: Sized;
 }
 
 #[cfg(feature = "serde")]
@@ -50,26 +35,11 @@ where
         use snafu::ResultExt as _;
         serde_json::from_slice(http_response.body()).context(crate::error::JsonSnafu)
     }
-
-    #[cfg(feature = "reqwest")]
-    async fn from_reqwest_response(response: reqwest::Response) -> Result<Self, Error>
-    where
-        Self: Sized,
-    {
-        use snafu::ResultExt as _;
-
-        use crate::error::ReqwestSnafu;
-
-        serde_json::from_slice(&response.bytes().await.context(ReqwestSnafu {
-            message: "Failed to receive success response",
-        })?)
-        .context(crate::error::JsonSnafu)
-    }
 }
 
-#[cfg(all(test, feature = "reqwest", feature = "serde"))]
-mod serde_reqwest_tests {
-    use reqwest::Client;
+#[cfg(all(test, feature = "serde"))]
+mod serde_tests {
+    use http::StatusCode;
     use serde::Deserialize;
 
     use super::*;
@@ -81,24 +51,14 @@ mod serde_reqwest_tests {
     }
 
     #[tokio::test]
-    async fn test_from_reqwest_response_success() {
-        let mut server = mockito::Server::new_async().await;
-        let _m = server
-            .mock("GET", "/test")
-            .with_status(200)
-            .with_header("content-type", "application/json")
-            .with_body(r#"{"id": 1, "name": "Test"}"#)
-            .create_async()
-            .await;
+    async fn test_from_response_success() {
+        let response = http::Response::builder()
+            .status(StatusCode::OK)
+            .header("content-type", "application/json")
+            .body(Bytes::from_static(r#"{"id":1,"name":"Test"}"#.as_bytes()))
+            .expect("valid response required");
 
-        let client = Client::new();
-        let response = client
-            .get(format!("{}/test", server.url()))
-            .send()
-            .await
-            .unwrap();
-
-        let result = TestStruct::from_reqwest_response(response).await;
+        let result = TestStruct::from_http_response(response);
         assert!(result.is_ok());
         assert_eq!(
             result.unwrap(),
@@ -110,24 +70,14 @@ mod serde_reqwest_tests {
     }
 
     #[tokio::test]
-    async fn test_from_reqwest_response_invalid_json() {
-        let mut server = mockito::Server::new_async().await;
-        let _m = server
-            .mock("GET", "/test")
-            .with_status(200)
-            .with_header("content-type", "application/json")
-            .with_body(r#"{"id": 1, "name": "Test"#)
-            .create_async()
-            .await;
+    async fn test_from_response_invalid_json() {
+        let response = http::Response::builder()
+            .status(StatusCode::OK)
+            .header("content-type", "application/json")
+            .body(Bytes::from_static(r#"{"id":1,"name":"Test"#.as_bytes()))
+            .expect("valid response required");
 
-        let client = Client::new();
-        let response = client
-            .get(format!("{}/test", server.url()))
-            .send()
-            .await
-            .unwrap();
-
-        let result = TestStruct::from_reqwest_response(response).await;
+        let result = TestStruct::from_http_response(response);
         assert!(result.is_err());
         assert!(matches!(result.unwrap_err(), Error::Json { .. }));
     }
