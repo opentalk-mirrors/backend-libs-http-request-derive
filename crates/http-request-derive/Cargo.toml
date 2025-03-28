@@ -12,20 +12,20 @@ repository.workspace = true
 version = "0.0.0-dev"
 
 [dependencies]
-async-trait = "0.1.82"
-bytes = "1"
-http = "1"
+async-trait.workspace = true
+bytes.workspace = true
+http.workspace = true
 http-request-derive-macros.workspace = true
-serde = { version = "1", optional = true }
-serde_json = { version = "1", optional = true }
-serde_url_params = { version = "0.2", optional = true }
-snafu = "0.8"
-url = "2"
+serde = { workspace = true, optional = true }
+serde_json = { workspace = true, optional = true }
+serde_url_params = { workspace = true, optional = true }
+snafu.workspace = true
+url.workspace = true
 
 [dev-dependencies]
-pretty_assertions = "1"
-serde = { version = "1", features = ["derive"] }
-tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
+pretty_assertions.workspace = true
+serde = { workspace = true, features = ["derive"] }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }
 
 [features]
 default = ["serde"]
