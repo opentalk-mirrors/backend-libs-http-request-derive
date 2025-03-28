@@ -163,6 +163,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "http-request-derive-client"
+version = "0.0.0-dev"
+dependencies = [
+ "async-trait",
+ "http-request-derive",
+]
+
+[[package]]
 name = "http-request-derive-macros"
 version = "0.0.0-dev"
 dependencies = [
