@@ -19,10 +19,14 @@ bytes = "1"
 darling = "0.20.8"
 http = "1"
 http-request-derive = { version = "0.0.0-dev", path = "crates/http-request-derive" }
+http-request-derive-client = { version = "0.0.0-dev", path = "crates/http-request-derive-client" }
 http-request-derive-macros = { version = "0.0.0-dev", path = "crates/http-request-derive-macros" }
+httptest = "0.16"
 pretty_assertions = "1"
+pretty_env_logger = "0.5"
 proc-macro2 = "1.0.81"
 quote = "1.0.36"
+reqwest = "0.12"
 serde = "1"
 serde_json = "1"
 serde_url_params = "0.2"
