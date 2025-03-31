@@ -1,0 +1,32 @@
+# SPDX-FileCopyrightText: OpenTalk GmbH <mail@opentalk.eu>
+#
+# SPDX-License-Identifier: MIT OR Apache-2.0
+
+[package]
+description.workspace = true
+edition.workspace = true
+license.workspace = true
+name = "http-request-derive"
+publish.workspace = true
+repository.workspace = true
+version = "0.0.0-dev"
+
+[dependencies]
+async-trait.workspace = true
+bytes.workspace = true
+http.workspace = true
+http-request-derive-macros.workspace = true
+serde = { workspace = true, optional = true }
+serde_json = { workspace = true, optional = true }
+serde_url_params = { workspace = true, optional = true }
+snafu.workspace = true
+url.workspace = true
+
+[dev-dependencies]
+pretty_assertions.workspace = true
+serde = { workspace = true, features = ["derive"] }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }
+
+[features]
+default = ["serde"]
+serde = ["dep:serde", "dep:serde_json", "dep:serde_url_params"]
