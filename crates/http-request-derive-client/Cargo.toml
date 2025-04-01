@@ -1,0 +1,16 @@
+# SPDX-FileCopyrightText: OpenTalk GmbH <mail@opentalk.eu>
+#
+# SPDX-License-Identifier: MIT OR Apache-2.0
+
+[package]
+description = "Use derive to create HTTP requests - client interface"
+edition.workspace = true
+license.workspace = true
+name = "http-request-derive-client"
+publish.workspace = true
+repository.workspace = true
+version = "0.0.0-dev"
+
+[dependencies]
+async-trait.workspace = true
+http-request-derive.workspace = true

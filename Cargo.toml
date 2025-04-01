@@ -18,6 +18,7 @@ async-trait = "0.1.82"
 bytes = "1"
 darling = "0.20.8"
 http = "1"
+http-request-derive = { version = "0.0.0-dev", path = "crates/http-request-derive" }
 http-request-derive-macros = { version = "0.0.0-dev", path = "crates/http-request-derive-macros" }
 pretty_assertions = "1"
 proc-macro2 = "1.0.81"

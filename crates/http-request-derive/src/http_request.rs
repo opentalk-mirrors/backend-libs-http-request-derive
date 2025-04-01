@@ -68,7 +68,9 @@ pub trait HttpRequest {
                         .with_context(|| UrlCannotBeABaseSnafu {
                             url: base_url.clone(),
                         })?;
-                let _ = segments.pop_if_empty().extend(self.path().split('/'));
+                let _ = segments
+                    .pop_if_empty()
+                    .extend(self.path().split('/').skip_while(|s| s.is_empty()));
             }
 
             let query = self
