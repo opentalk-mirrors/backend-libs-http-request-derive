@@ -9,7 +9,7 @@ license.workspace = true
 name = "http-request-derive"
 publish.workspace = true
 repository.workspace = true
-version = "0.0.0-dev"
+version = "0.4.0"
 
 [dependencies]
 async-trait.workspace = true
