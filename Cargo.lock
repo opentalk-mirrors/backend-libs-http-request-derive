@@ -450,7 +450,7 @@ dependencies = [
 
 [[package]]
 name = "http-request-derive"
-version = "0.0.0-dev"
+version = "0.4.0"
 dependencies = [
  "async-trait",
  "bytes",
@@ -467,7 +467,7 @@ dependencies = [
 
 [[package]]
 name = "http-request-derive-client"
-version = "0.0.0-dev"
+version = "0.1.0"
 dependencies = [
  "async-trait",
  "http-request-derive",
@@ -475,7 +475,7 @@ dependencies = [
 
 [[package]]
 name = "http-request-derive-client-reqwest"
-version = "0.0.0-dev"
+version = "0.1.0"
 dependencies = [
  "async-trait",
  "http",
@@ -494,7 +494,7 @@ dependencies = [
 
 [[package]]
 name = "http-request-derive-macros"
-version = "0.0.0-dev"
+version = "0.2.0"
 dependencies = [
  "darling",
  "proc-macro2",
