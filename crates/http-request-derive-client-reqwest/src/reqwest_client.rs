@@ -16,7 +16,7 @@ use crate::{
 };
 
 /// A client for executing requests as defined by [`http_request_derive::HttpRequest`] implementations.
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct ReqwestClient {
     client: reqwest::Client,
     base_url: Url,
