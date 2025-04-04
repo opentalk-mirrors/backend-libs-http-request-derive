@@ -16,7 +16,7 @@ use crate::{
 };
 
 /// A client for executing requests as defined by [`http_request_derive::HttpRequest`] implementations.
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct ReqwestClient {
     client: reqwest::Client,
     base_url: Url,
@@ -29,6 +29,16 @@ impl ReqwestClient {
             client: reqwest::Client::new(),
             base_url,
         }
+    }
+
+    /// Returns the base URL which is used for subsequent requests.
+    pub fn base_url(&self) -> &Url {
+        &self.base_url
+    }
+
+    /// Sets the base URL to the given URL.
+    pub fn set_base_url(&mut self, base_url: Url) {
+        self.base_url = base_url
     }
 }
 
@@ -77,6 +87,7 @@ mod tests {
     use pretty_assertions::{assert_eq, assert_matches};
     use serde::{Deserialize, Serialize};
     use serde_json::json;
+    use url::Url;
 
     use crate::ReqwestClient;
 
@@ -252,5 +263,18 @@ mod tests {
                 name: "hello".to_string()
             }
         );
+    }
+
+    #[tokio::test]
+    async fn get_base_url() {
+        let url = Url::parse("http://localhost:9090/v1/api").expect("must be a valid url");
+        let mut client = ReqwestClient::new(url.clone());
+
+        assert_eq!(client.base_url(), &url);
+
+        let new_url = Url::parse("http://localhost:9090/v2/api").expect("must be a valid url");
+        client.set_base_url(new_url.clone());
+
+        assert_eq!(client.base_url(), &new_url);
     }
 }
