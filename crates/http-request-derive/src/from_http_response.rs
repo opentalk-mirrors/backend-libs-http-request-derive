@@ -2,13 +2,11 @@
 //
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
-use async_trait::async_trait;
 use bytes::Bytes;
 
 use crate::Error;
 
 /// Trait for types that can be converted from `http::Response`
-#[async_trait]
 pub trait FromHttpResponse {
     /// Convert from `http::Response` to our `Response`
     ///
@@ -26,7 +24,6 @@ pub trait FromHttpResponse {
 }
 
 #[cfg(feature = "serde")]
-#[async_trait]
 impl<D> FromHttpResponse for D
 where
     D: serde::de::DeserializeOwned,
