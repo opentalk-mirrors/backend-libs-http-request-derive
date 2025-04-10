@@ -452,7 +452,6 @@ dependencies = [
 name = "http-request-derive"
 version = "0.4.0"
 dependencies = [
- "async-trait",
  "bytes",
  "http",
  "http-request-derive-macros",

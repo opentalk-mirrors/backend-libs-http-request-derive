@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
-use async_trait::async_trait;
 use bytes::Bytes;
 use http::{HeaderMap, StatusCode, Uri};
 use snafu::{OptionExt, ResultExt};
@@ -17,7 +16,6 @@ use crate::{
 };
 
 /// A trait implemented for types that are sent to the API as parameters
-#[async_trait]
 pub trait HttpRequest {
     /// The response type that is expected to the request
     type Response: FromHttpResponse;
