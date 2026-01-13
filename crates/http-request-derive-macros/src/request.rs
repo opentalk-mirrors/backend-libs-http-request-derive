@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
-use darling::{ast, util, FromDeriveInput, FromField};
+use darling::{FromDeriveInput, FromField, ast, util};
 use proc_macro2::Span;
 use quote::quote;
 
@@ -207,7 +207,12 @@ fn impl_request(
                 .iter()
                 .any(|segment| segment.ident == "HeaderMap")
             {
-                return Err(syn::Error::new(Span::call_site(), format!("Attribute #[{ATTRIBUTE_NAME}(header)] must be applied to field of type http::HeaderMap",)));
+                return Err(syn::Error::new(
+                    Span::call_site(),
+                    format!(
+                        "Attribute #[{ATTRIBUTE_NAME}(header)] must be applied to field of type http::HeaderMap",
+                    ),
+                ));
             }
 
             quote! {

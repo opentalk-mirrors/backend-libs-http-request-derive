@@ -8,11 +8,11 @@ use snafu::ResultExt as _;
 use url::Url;
 
 use crate::{
+    ReqwestClientError,
     reqwest_client_error::{
         BuildHttpResponseBodySnafu, ConvertToHttpRequestSnafu, ConvertToReqwestRequestSnafu,
         ReadResponseSnafu, RequestExecutionSnafu, RetrieveResponseBodySnafu,
     },
-    ReqwestClientError,
 };
 
 /// A client for executing requests as defined by [`http_request_derive::HttpRequest`] implementations.
@@ -79,10 +79,9 @@ mod tests {
     use http_request_derive::HttpRequest;
     use http_request_derive_client::Client as _;
     use httptest::{
-        all_of,
+        Expectation, all_of,
         matchers::{json_decoded, request},
         responders::{json_encoded, status_code},
-        Expectation,
     };
     use pretty_assertions::{assert_eq, assert_matches};
     use serde::{Deserialize, Serialize};

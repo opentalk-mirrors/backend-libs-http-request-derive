@@ -8,7 +8,7 @@ resolver = "2"
 
 [workspace.package]
 description = "Use derive to create HTTP requests"
-edition = "2021"
+edition = "2024"
 license = "MIT OR Apache-2.0"
 publish = true
 repository = "https://gitlab.opencode.de/opentalk/libs/http-request-derive"

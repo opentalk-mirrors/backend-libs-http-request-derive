@@ -8,8 +8,8 @@ use snafu::{OptionExt, ResultExt};
 use url::Url;
 
 use crate::{
-    error::{BuildRequestSnafu, ParseUriSnafu, UrlCannotBeABaseSnafu},
     Error, FromHttpResponse, HttpRequestBody, HttpRequestQueryParams,
+    error::{BuildRequestSnafu, ParseUriSnafu, UrlCannotBeABaseSnafu},
 };
 
 /// A trait implemented for types that are sent to the API as parameters

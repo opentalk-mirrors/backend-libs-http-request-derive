@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
 use bytes::Bytes;
-use http::{uri::InvalidUri, StatusCode};
+use http::{StatusCode, uri::InvalidUri};
 use snafu::{Location, Snafu};
 use url::Url;
 
