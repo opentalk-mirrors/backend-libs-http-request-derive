@@ -199,7 +199,7 @@ mod tests {
             Err(crate::ReqwestClientError::ReadResponse {
                 source: http_request_derive::Error::NonSuccessStatus {
                     status: StatusCode::INTERNAL_SERVER_ERROR,
-                    data: _
+                    body: _
                 }
             })
         );

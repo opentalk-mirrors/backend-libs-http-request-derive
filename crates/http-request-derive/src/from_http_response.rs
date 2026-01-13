@@ -30,6 +30,16 @@ where
 {
     fn from_http_response(http_response: http::Response<Bytes>) -> Result<Self, Error> {
         use snafu::ResultExt as _;
+
+        let status = http_response.status();
+
+        snafu::ensure!(
+            status.is_success(),
+            crate::error::NonSuccessStatusSnafu {
+                status,
+                body: http_response.into_body()
+            }
+        );
         serde_json::from_slice(http_response.body()).context(crate::error::JsonSnafu)
     }
 }

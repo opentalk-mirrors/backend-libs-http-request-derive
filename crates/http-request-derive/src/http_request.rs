@@ -3,15 +3,12 @@
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
 use bytes::Bytes;
-use http::{HeaderMap, StatusCode, Uri};
+use http::{HeaderMap, Uri};
 use snafu::{OptionExt, ResultExt};
 use url::Url;
 
 use crate::{
-    error::{
-        BuildRequestSnafu, NonSuccessStatusSnafu, ParseUriSnafu, UnauthorizedSnafu,
-        UrlCannotBeABaseSnafu,
-    },
+    error::{BuildRequestSnafu, ParseUriSnafu, UrlCannotBeABaseSnafu},
     Error, FromHttpResponse, HttpRequestBody, HttpRequestQueryParams,
 };
 
@@ -98,23 +95,7 @@ pub trait HttpRequest {
     }
 
     /// Convert the response from a `http::Response`
-    ///
-    /// # Errors
-    ///
-    /// Usually HTTP response codes that don't indicate success will be converted to the
-    /// corresponding [`Error`]. For example, a [`StatusCode::UNAUTHORIZED`] is converted
-    /// to [`Error::Unauthorized`]. This is the behavior found in the default implementation
-    /// and can be overwritten by a specialized implementation if required.
     fn read_response(response: http::Response<Bytes>) -> Result<Self::Response, Error> {
-        match response.status() {
-            status if status.is_success() => Self::Response::from_http_response(response),
-
-            StatusCode::UNAUTHORIZED => Err(UnauthorizedSnafu.build()),
-            status => Err(NonSuccessStatusSnafu {
-                status,
-                data: response.into_body(),
-            }
-            .build()),
-        }
+        Self::Response::from_http_response(response)
     }
 }
