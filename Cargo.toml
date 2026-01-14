@@ -18,8 +18,8 @@ async-trait = "0.1.82"
 bytes = "1"
 darling = "0.23.0"
 http = "1"
-http-request-derive = { version = "0.4.0", path = "crates/http-request-derive" }
-http-request-derive-client = { version = "0.1.0", path = "crates/http-request-derive-client" }
+http-request-derive = { version = "0.5.0", path = "crates/http-request-derive" }
+http-request-derive-client = { version = "0.2.0", path = "crates/http-request-derive-client" }
 http-request-derive-macros = { version = "0.2.1", path = "crates/http-request-derive-macros" }
 httptest = "0.16"
 pretty_assertions = "1"
