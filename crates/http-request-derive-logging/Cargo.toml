@@ -1,0 +1,18 @@
+# SPDX-FileCopyrightText: OpenTalk GmbH <mail@opentalk.eu>
+#
+# SPDX-License-Identifier: MIT OR Apache-2.0
+
+[package]
+description = "Use derive to create HTTP requests - logging middleware interface"
+edition.workspace = true
+license.workspace = true
+name = "http-request-derive-logging"
+publish.workspace = true
+repository.workspace = true
+version = "0.1.0"
+
+[dependencies]
+async-trait.workspace = true
+bytes.workspace = true
+http.workspace = true
+tokio.workspace = true

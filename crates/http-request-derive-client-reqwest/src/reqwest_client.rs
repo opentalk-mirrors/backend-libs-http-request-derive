@@ -2,8 +2,12 @@
 //
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
+use std::time::SystemTime;
+
+use bytes::Bytes;
 use http_request_derive::HttpRequest;
 use http_request_derive_client::Client;
+use http_request_derive_logging::HttpLogger;
 use snafu::ResultExt as _;
 use url::Url;
 
@@ -20,6 +24,7 @@ use crate::{
 pub struct ReqwestClient {
     client: reqwest::Client,
     base_url: Url,
+    logger: Option<HttpLogger>,
 }
 
 impl ReqwestClient {
@@ -28,7 +33,24 @@ impl ReqwestClient {
         Self {
             client: reqwest::Client::new(),
             base_url,
+            logger: None,
         }
+    }
+
+    /// Get the logger for dumping information about the HTTP communication if it is set.
+    pub fn logger(&self) -> Option<HttpLogger> {
+        self.logger.clone()
+    }
+
+    /// Set a logger for dumping information about the HTTP communication.
+    pub fn set_logger(&mut self, logger: HttpLogger) {
+        self.logger = Some(logger);
+    }
+
+    /// Return the client with a new logger for dumping the HTTP communication.
+    pub fn with_logger(mut self, logger: HttpLogger) -> Self {
+        self.logger = Some(logger);
+        self
     }
 
     /// Returns the base URL which is used for subsequent requests.
@@ -40,19 +62,17 @@ impl ReqwestClient {
     pub fn set_base_url(&mut self, base_url: Url) {
         self.base_url = base_url
     }
-}
 
-#[async_trait::async_trait]
-impl Client for ReqwestClient {
-    type ClientError = ReqwestClientError;
+    /// Return the client with a new base URL.
+    pub fn with_base_url(mut self, base_url: Url) -> Self {
+        self.base_url = base_url;
+        self
+    }
 
-    async fn execute<R: HttpRequest + Send>(
+    async fn execute_http_request(
         &self,
-        request: R,
-    ) -> Result<R::Response, Self::ClientError> {
-        let request = request
-            .to_http_request(&self.base_url)
-            .context(ConvertToHttpRequestSnafu)?;
+        request: http::Request<Vec<u8>>,
+    ) -> Result<http::Response<Bytes>, ReqwestClientError> {
         let request = reqwest::Request::try_from(request).context(ConvertToReqwestRequestSnafu)?;
         let response = self
             .client
@@ -69,6 +89,40 @@ impl Client for ReqwestClient {
         let http_response = http_response
             .body(body)
             .context(BuildHttpResponseBodySnafu)?;
+        Ok(http_response)
+    }
+
+    async fn execute_http_request_with_optional_logging(
+        &self,
+        request: http::Request<Vec<u8>>,
+    ) -> Result<http::Response<Bytes>, ReqwestClientError> {
+        if let Some(logger) = self.logger.as_ref() {
+            let start_time = SystemTime::now();
+            let response = self.execute_http_request(request.clone()).await;
+            logger
+                .log_request(start_time, &request, response.as_ref().ok())
+                .await;
+            return response;
+        }
+
+        self.execute_http_request(request).await
+    }
+}
+
+#[async_trait::async_trait(?Send)]
+impl Client for ReqwestClient {
+    type ClientError = ReqwestClientError;
+
+    async fn execute<R: HttpRequest + Send>(
+        &self,
+        request: R,
+    ) -> Result<R::Response, Self::ClientError> {
+        let request = request
+            .to_http_request(&self.base_url)
+            .context(ConvertToHttpRequestSnafu)?;
+        let http_response = self
+            .execute_http_request_with_optional_logging(request)
+            .await?;
         R::read_response(http_response).context(ReadResponseSnafu)
     }
 }

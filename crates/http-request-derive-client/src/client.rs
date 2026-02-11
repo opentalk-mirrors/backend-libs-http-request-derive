@@ -5,7 +5,7 @@
 use http_request_derive::HttpRequest;
 
 /// A client that can execute [`http_request_derive::HttpRequest`]s.
-#[async_trait::async_trait]
+#[async_trait::async_trait(?Send)]
 pub trait Client {
     /// An error that can be returned during request execution by the [`Client`].
     type ClientError: std::error::Error;

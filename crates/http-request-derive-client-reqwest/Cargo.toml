@@ -13,11 +13,14 @@ version = "0.4.0"
 
 [dependencies]
 async-trait.workspace = true
+bytes.workspace = true
 http.workspace = true
 http-request-derive.workspace = true
 http-request-derive-client.workspace = true
+http-request-derive-logging.workspace = true
 reqwest.workspace = true
 snafu.workspace = true
+tokio.workspace = true
 url.workspace = true
 
 [dev-dependencies]
