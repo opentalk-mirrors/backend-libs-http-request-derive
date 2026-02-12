@@ -1,0 +1,22 @@
+# SPDX-FileCopyrightText: OpenTalk GmbH <mail@opentalk.eu>
+#
+# SPDX-License-Identifier: MIT OR Apache-2.0
+
+[package]
+description = "Use derive to create HTTP requests - logging middleware for dumping to har files"
+edition.workspace = true
+license.workspace = true
+name = "http-request-derive-logging-har"
+publish.workspace = true
+repository.workspace = true
+version = "0.1.0"
+
+[dependencies]
+async-trait.workspace = true
+bytes.workspace = true
+har.workspace = true
+http.workspace = true
+http-request-derive-logging.workspace = true
+jiff.workspace = true
+log.workspace = true
+snafu.workspace = true
