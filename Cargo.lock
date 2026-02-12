@@ -459,7 +459,7 @@ dependencies = [
 
 [[package]]
 name = "http-request-derive-client"
-version = "0.2.0"
+version = "0.2.1"
 dependencies = [
  "async-trait",
  "http-request-derive",
@@ -467,7 +467,7 @@ dependencies = [
 
 [[package]]
 name = "http-request-derive-client-reqwest"
-version = "0.4.0"
+version = "0.4.1"
 dependencies = [
  "async-trait",
  "bytes",
