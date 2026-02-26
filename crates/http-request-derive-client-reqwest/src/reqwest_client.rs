@@ -79,9 +79,11 @@ impl ReqwestClient {
             .execute(request)
             .await
             .context(RequestExecutionSnafu)?;
-        let mut http_response = http::Response::builder()
-            .status(response.status())
-            .version(response.version());
+        let mut http_response = http::Response::builder().status(response.status());
+        #[cfg(not(all(target_family = "wasm", target_os = "unknown")))]
+        {
+            http_response = http_response.version(response.version());
+        }
         if let Some(headers) = http_response.headers_mut() {
             *headers = response.headers().clone();
         }
