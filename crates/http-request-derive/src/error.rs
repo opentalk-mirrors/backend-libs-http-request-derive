@@ -80,12 +80,9 @@ impl Error {
     /// Create a custom error
     #[track_caller]
     pub fn custom(message: String) -> Self {
-        let location = std::panic::Location::caller();
+        let location = core::panic::Location::caller();
 
-        Error::Custom {
-            message,
-            location: Location::new(location.file(), location.line(), location.column()),
-        }
+        Error::Custom { message, location }
     }
 
     /// Query whether the error is caused by an HTTP Unauthorized status code
