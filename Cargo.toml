@@ -14,28 +14,28 @@ publish = true
 repository = "https://gitlab.opencode.de/opentalk/libs/http-request-derive"
 
 [workspace.dependencies]
-async-trait = "0.1.82"
+async-trait = "0.1.89"
 bytes = "1"
 darling = "0.23.0"
-har = "0.8.1"
+har = "0.9.0"
 http = "1"
 http-request-derive = { version = "0.5.0", path = "crates/http-request-derive" }
 http-request-derive-client = { version = "0.2.1", path = "crates/http-request-derive-client" }
 http-request-derive-logging = { version = "0.1.0", path = "crates/http-request-derive-logging" }
 http-request-derive-macros = { version = "0.2.1", path = "crates/http-request-derive-macros" }
 httptest = "0.16"
-jiff = "0.2.19"
+jiff = "0.2.23"
 log = "0.4.29"
 pretty_assertions = "1"
 pretty_env_logger = "0.5"
-proc-macro2 = "1.0.81"
-quote = "1.0.36"
+proc-macro2 = "1.0.106"
+quote = "1.0.45"
 reqwest = { version = "0.13", default-features = false }
 serde = "1"
 serde_json = "1"
 serde_url_params = "0.2"
 snafu = "0.9"
 strum = "0.28.0"
-syn = "2.0.60"
-tokio = "1.0"
+syn = "2.0.117"
+tokio = "1.50"
 url = "2"
