@@ -28,10 +28,29 @@ pub struct ReqwestClient {
 }
 
 impl ReqwestClient {
-    /// Create a new [`ReqwestClient`] from a base [`Url`].
+    /// Create a new [`ReqwestClient`] from a base [`Url`] using default [`reqwest::Client`].
     pub fn new(base_url: Url) -> Self {
+        let client = reqwest::Client::new();
+        Self::from_reqwest_client(client, base_url)
+    }
+
+    /// Create a new [`ReqwestClient`] from a base [`Url`] using preconfigured [`reqwest::Client`].
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// // Add timeout to the client
+    /// #  use std::time::Duration;
+    /// #  use http_request_derive_client_reqwest::ReqwestClient;
+    /// #  use url::Url;
+    ///   let base_url = Url::parse("https://example.com/").expect("parse url");
+    ///   let client = reqwest::Client::builder().timeout(Duration::from_secs(300)).build()?;
+    ///   let client = ReqwestClient::from_reqwest_client(client, base_url);
+    /// #  Ok::<(), Box<dyn std::error::Error>>(())
+    /// ```
+    pub fn from_reqwest_client(client: reqwest::Client, base_url: Url) -> Self {
         Self {
-            client: reqwest::Client::new(),
+            client,
             base_url,
             logger: None,
         }
@@ -136,7 +155,7 @@ mod tests {
     use http_request_derive_client::Client as _;
     use httptest::{
         Expectation, all_of,
-        matchers::{json_decoded, request},
+        matchers::{contains, json_decoded, request},
         responders::{json_encoded, status_code},
     };
     use pretty_assertions::{assert_eq, assert_matches};
@@ -331,5 +350,59 @@ mod tests {
         client.set_base_url(new_url.clone());
 
         assert_eq!(client.base_url(), &new_url);
+    }
+
+    #[tokio::test]
+    async fn preconfigured_reqwest_client() {
+        #[derive(HttpRequest)]
+        #[http_request(method = "GET", response = ResponseBody, path = "/secret")]
+        struct Request;
+
+        #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+        struct ResponseBody {
+            name: String,
+        }
+
+        _ = pretty_env_logger::try_init();
+        let server = httptest::Server::run();
+
+        server.expect(
+            Expectation::matching(all_of![
+                request::method_path("GET", "/api/secret"),
+                request::headers(contains(("x-custom-token", "secret"))),
+            ])
+            .respond_with(json_encoded(json!(ResponseBody {
+                name: "hello".to_string()
+            }))),
+        );
+
+        let url = server
+            .url("/api")
+            .to_string()
+            .parse()
+            .expect("must be a valid url");
+
+        let mut headers = reqwest::header::HeaderMap::new();
+        let _ = headers.insert(
+            "x-custom-token",
+            reqwest::header::HeaderValue::from_static("secret"),
+        );
+        let reqwest_client = reqwest::Client::builder()
+            .default_headers(headers)
+            .build()
+            .expect("client builds");
+        let client = ReqwestClient::from_reqwest_client(reqwest_client, url);
+
+        let response = client
+            .execute(Request)
+            .await
+            .expect("request with default header is accepted");
+
+        assert_eq!(
+            response,
+            ResponseBody {
+                name: "hello".to_string()
+            }
+        );
     }
 }
