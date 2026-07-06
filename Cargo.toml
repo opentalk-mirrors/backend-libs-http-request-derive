@@ -21,7 +21,7 @@ har = "0.9.0"
 http = "1"
 http-request-derive = { version = "0.6.0", path = "crates/http-request-derive" }
 http-request-derive-client = { version = "0.3.0", path = "crates/http-request-derive-client" }
-http-request-derive-client-reqwest = { version = "0.5.0", path = "crates/http-request-derive-client-reqwest" }
+http-request-derive-client-reqwest = { version = "0.6.0", path = "crates/http-request-derive-client-reqwest" }
 http-request-derive-logging = { version = "0.1.0", path = "crates/http-request-derive-logging" }
 http-request-derive-logging-har = { version = "0.1.0", path = "crates/http-request-derive-logging-har" }
 http-request-derive-macros = { version = "0.2.1", path = "crates/http-request-derive-macros" }
