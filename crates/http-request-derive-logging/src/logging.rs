@@ -10,12 +10,12 @@ use tokio::sync::RwLock;
 /// A middleware for logging HTTP requests.
 #[derive(Clone)]
 pub struct HttpLogger {
-    backend: Arc<RwLock<dyn HttpLoggerBackend>>,
+    backend: Arc<RwLock<dyn HttpLoggerBackend + Send + Sync>>,
 }
 
 impl HttpLogger {
     /// Create a new HTTP logger from a backend
-    pub fn new<T: HttpLoggerBackend + 'static>(backend: T) -> Self {
+    pub fn new<T: HttpLoggerBackend + Send + Sync + 'static>(backend: T) -> Self {
         Self {
             backend: Arc::new(RwLock::new(backend)),
         }
@@ -25,7 +25,9 @@ impl HttpLogger {
     ///
     /// This can be used in order to maintain access to the backend inside the `RwLock`
     /// even after passing it into the `HttpLogger`.
-    pub fn new_with_locked<T: HttpLoggerBackend + 'static>(backend: Arc<RwLock<T>>) -> Self {
+    pub fn new_with_locked<T: HttpLoggerBackend + Send + Sync + 'static>(
+        backend: Arc<RwLock<T>>,
+    ) -> Self {
         Self { backend }
     }
 
