@@ -475,7 +475,7 @@ dependencies = [
 
 [[package]]
 name = "http-request-derive-client-reqwest"
-version = "0.6.0"
+version = "0.6.1"
 dependencies = [
  "async-trait",
  "bytes",
@@ -506,7 +506,7 @@ dependencies = [
 
 [[package]]
 name = "http-request-derive-logging-har"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "async-trait",
  "bytes",
